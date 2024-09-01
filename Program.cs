@@ -20,6 +20,9 @@ builder.Services.AddSingleton<IHashService, ShaHashService>();
 builder.Services.AddSingleton<IKdfService, Pbkdf1Service>();
 builder.Services.AddSingleton<IFileUploader, FileUploadService>();
 
+builder.Services.AddTransient<IFileNameGeneratorService, FileNameGeneratorService>();
+builder.Services.AddControllersWithViews();
+
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
