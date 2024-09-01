@@ -1,5 +1,7 @@
 # ASP-P15
 
+$ОСТАЛЬНЫЕ ДЗ БУДУ ЛОЖИТЬ В ПАПКУ HW!!
+
 Дз за 12.07.2024
 
 ![image](https://github.com/user-attachments/assets/9849a720-bdd1-4314-80ec-b7167698ad93)
