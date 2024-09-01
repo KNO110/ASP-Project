@@ -78,6 +78,29 @@ namespace ASP_P15.Controllers
             return View();
         }
 
+        private const string AdminPassword = "Arbuz";
+
+        public IActionResult AdminPage()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AuthorizeAdmin(string password)
+        {
+            if (password == AdminPassword)
+            {
+                TempData["IsAuthorized"] = true;
+                return RedirectToAction("AdminPage");
+            }
+            else
+            {
+                TempData["IsAuthorized"] = false;
+                ModelState.AddModelError(string.Empty, "Неправильний пароль.");
+                return RedirectToAction("AdminPage");
+            }
+        }
+
         public IActionResult SignUp()
         {
             SignUpPageModel model = new();

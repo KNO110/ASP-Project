@@ -14,6 +14,9 @@
 @if (Context.User.Identity?.IsAuthenticated ?? false)
 {
     <b>Ви авторизовані</b>
+    <div class="text-center mt-3">
+        <a href="@Url.Action("AdminPage", "Home")" class="btn btn-primary btn-lg">Перейти на AdminPage</a>
+    </div>
 }
 else
 {

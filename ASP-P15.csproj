@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <Folder Include="Uploads\Shop\" />
+    <Folder Include="Views\Extra\" />
     <Folder Include="Views\Home\DisplayTemplates\" />
     <Folder Include="wwwroot\img\upload\" />
   </ItemGroup>

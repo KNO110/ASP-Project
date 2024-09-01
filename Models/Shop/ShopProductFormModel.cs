@@ -1,36 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Text.Json.Serialization;
-
-namespace ASP_P15.Models.Shop
+﻿namespace ASP_P15.Models.Shop
 {
     public class ShopProductFormModel
     {
-        [FromForm(Name = "product-name")]
-        public String Name { get; set; } = null!;
-
-
-        [FromForm(Name = "product-description")]
-        public String Description { get; set; } = null!;
-
-
-        [FromForm(Name = "product-slug")]
-        public String? Slug { get; set; }
-
-
-        [FromForm(Name = "product-picture")]
-        [JsonIgnore]
-        public IFormFile ImageFile { get; set; } = null!;
-
-
-        [FromForm(Name = "product-price")]
+        public string Name { get; set; }
+        public string? Description { get; set; }
+        public IFormFile ImageFile { get; set; }
         public double Price { get; set; }
-
-
-        [FromForm(Name = "product-amount")]
-        public int Amount { get; set; }
-
-
-        [FromForm(Name = "group-id")]
+        public long Amount { get; set; }
         public Guid GroupId { get; set; }
+        public string? Slug { get; set; }
     }
 }
