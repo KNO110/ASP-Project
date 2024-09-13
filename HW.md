@@ -11,3 +11,9 @@
 ![image](https://github.com/user-attachments/assets/17af7c79-48e9-4889-b608-bc9ba2508c6e)
 ![image](https://github.com/user-attachments/assets/ae8f7ffb-2031-4f58-bd4e-b577f903335a)
 
+ДЗ за 19.07.2024:
+![image](https://github.com/user-attachments/assets/48f20c63-4a72-4db3-ad29-a3098613e046)
+![image](https://github.com/user-attachments/assets/1759d5da-3680-4a31-85cb-cb6b2642cdbf)
+![image](https://github.com/user-attachments/assets/48cd4dfa-bd28-40c6-91db-921e999aaa70)
+![image](https://github.com/user-attachments/assets/50d9eb87-f653-4006-8a23-9adbc00faab4)
+Есть валидация как клиенсткая так и серверная, не знаю как показать, так что сервер не принимает пустые значения или некорректные
