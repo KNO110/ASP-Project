@@ -3,6 +3,7 @@
     ViewData["Title"] = "Admin Page";
     bool isAuthenticated = Context.User.Identity?.IsAuthenticated ?? false;
     bool isAuthorized = TempData["IsAuthorized"] as bool? ?? false;
+    bool productAdded = TempData["ProductAdded"] as bool? ?? false;
 }
 
 <div class="text-center">
@@ -30,6 +31,19 @@ else
 
     @if (isAuthenticated)
     {
+        @if (productAdded)
+        {
+            <div class="alert alert-success mt-4">
+                <p>Товар успішно додано!</p>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-warning mt-4">
+                <p>Немає попередніх даних</p>
+            </div>
+        }
+
         <hr />
         <form enctype="multipart/form-data" method="post" id="shop-group-form">
             <div class="row">

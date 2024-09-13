@@ -37,34 +37,52 @@ namespace ASP_P15.Controllers
                     message = "Email and password must not be empty"
                 };
             }
-            // Розшифрувати DK неможливо, тому повторюємо розрахунок DK з сіллю, що
-            // зберігається у користувача, та паролем, який передано у параметрі
-            
+
+            // Находим пользователя по email
             var user = _dataContext
                 .Users
-                .FirstOrDefault(u => 
-                    u.Email == email && 
-                    u.DeleteDt == null);  // додаємо умову, що користувач не видалений
+                .FirstOrDefault(u =>
+                    u.Email == email &&
+                    u.DeleteDt == null);  // проверка, что пользователь не удален
 
             if (user != null && _kdfService.DerivedKey(password, user.Salt) == user.Dk)
             {
-                // генеруємо токен
-                Token token = new()
+                // Проверяем, есть ли активный токен для пользователя
+                var activeToken = _dataContext.Tokens
+                    .FirstOrDefault(t =>
+                        t.UserId == user.Id &&
+                        t.ExpiresAt > DateTime.Now);  // проверяем, что токен не истек
+
+                if (activeToken != null)
                 {
-                    Id = Guid.NewGuid(),
-                    UserId = user.Id,
-                    ExpiresAt = DateTime.Now.AddHours(3),
-                };
-                _dataContext.Tokens.Add(token);
-                _dataContext.SaveChanges();
-                // зберігаємо токен у сесії
-                HttpContext.Session.SetString("token", token.Id.ToString());
-                return new
+                    // Если есть активный токен, возвращаем его
+                    HttpContext.Session.SetString("token", activeToken.Id.ToString());
+                    return new
+                    {
+                        status = "Ok",
+                        code = 200,
+                        message = activeToken.Id  // возвращаем активный токен клиенту
+                    };
+                }
+                else
                 {
-                    status = "Ok",
-                    code = 200,
-                    message = token.Id  // передаємо токен клієнту
-                };
+                    // Если активного токена нет, генерируем новый
+                    Token newToken = new()
+                    {
+                        Id = Guid.NewGuid(),
+                        UserId = user.Id,
+                        ExpiresAt = DateTime.Now.AddHours(3),
+                    };
+                    _dataContext.Tokens.Add(newToken);
+                    _dataContext.SaveChanges();
+                    HttpContext.Session.SetString("token", newToken.Id.ToString());
+                    return new
+                    {
+                        status = "Ok",
+                        code = 200,
+                        message = newToken.Id  // возвращаем новый токен клиенту
+                    };
+                }
             }
             else
             {
@@ -74,7 +92,7 @@ namespace ASP_P15.Controllers
                     code = 401,
                     message = "Credentials rejected"
                 };
-            }            
+            }
         }
 
         [HttpDelete]
