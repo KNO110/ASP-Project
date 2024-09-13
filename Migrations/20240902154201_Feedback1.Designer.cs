@@ -4,6 +4,7 @@ using ASP_P15.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ASP_P15.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240902154201_Feedback1")]
+    partial class Feedback1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,63 +25,11 @@ namespace ASP_P15.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ASP_P15.Data.Entities.Cart", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("CloseDt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("CreateDt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeleteDt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Carts");
-                });
-
-            modelBuilder.Entity("ASP_P15.Data.Entities.CartProduct", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CartId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Cnt")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CartId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("CartProducts");
-                });
-
             modelBuilder.Entity("ASP_P15.Data.Entities.Feedback", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("DeleteDt")
-                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("ProductId")
                         .HasColumnType("uniqueidentifier");
@@ -235,34 +186,6 @@ namespace ASP_P15.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("ASP_P15.Data.Entities.Cart", b =>
-                {
-                    b.HasOne("ASP_P15.Data.Entities.User", null)
-                        .WithMany("Carts")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ASP_P15.Data.Entities.CartProduct", b =>
-                {
-                    b.HasOne("ASP_P15.Data.Entities.Cart", "Cart")
-                        .WithMany("CartProducts")
-                        .HasForeignKey("CartId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ASP_P15.Data.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Cart");
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("ASP_P15.Data.Entities.Feedback", b =>
                 {
                     b.HasOne("ASP_P15.Data.Entities.Product", "Product")
@@ -272,7 +195,7 @@ namespace ASP_P15.Migrations
                         .IsRequired();
 
                     b.HasOne("ASP_P15.Data.Entities.User", "User")
-                        .WithMany("Feedbacks")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -293,11 +216,6 @@ namespace ASP_P15.Migrations
                     b.Navigation("Group");
                 });
 
-            modelBuilder.Entity("ASP_P15.Data.Entities.Cart", b =>
-                {
-                    b.Navigation("CartProducts");
-                });
-
             modelBuilder.Entity("ASP_P15.Data.Entities.Product", b =>
                 {
                     b.Navigation("Feedbacks");
@@ -306,13 +224,6 @@ namespace ASP_P15.Migrations
             modelBuilder.Entity("ASP_P15.Data.Entities.ProductGroup", b =>
                 {
                     b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("ASP_P15.Data.Entities.User", b =>
-                {
-                    b.Navigation("Carts");
-
-                    b.Navigation("Feedbacks");
                 });
 #pragma warning restore 612, 618
         }

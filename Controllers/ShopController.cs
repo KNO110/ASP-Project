@@ -50,6 +50,39 @@ namespace ASP_P15.Controllers
             return View(model);
         }
 
+        public IActionResult Product(String id)
+        {
+            Product? product = null;
+
+            var source = _dataContext
+                .Products
+                .Where(p => p.DeleteDt == null)
+                .Include(p => p.Feedbacks.Where(f => f.DeleteDt == null))
+                    .ThenInclude(f => f.User)
+                .Include(p => p.Group)
+                    .ThenInclude(g => g.Products);
+
+            product = source
+                .FirstOrDefault(p => p.Slug == id);
+
+            if (product == null)
+            {
+                product = source
+                    .FirstOrDefault(p => p.Id.ToString() == id);
+            }
+            if (product == null)
+            {
+                return View("Page404");
+            }
+
+            ShopProductPageModel model = new()
+            {
+                Product = product,
+                ProductGroup = product.Group,
+            };
+
+            return View(model);
+        }
     }
 }
 

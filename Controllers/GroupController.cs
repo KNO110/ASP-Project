@@ -23,7 +23,7 @@ namespace ASP_P15.Controllers
                     formModel.ImageFile,
                     "./Uploads/Shop"
                 );
-                _dataContext.Groups.Add( new()                                
+                _dataContext.Groups.Add(new()
                 {
                     Id = Guid.NewGuid(),
                     Name = formModel.Name,
@@ -38,8 +38,8 @@ namespace ASP_P15.Controllers
             {
                 return new { code = 500, status = "error", message = ex.Message };
             }
-            
-            return new { code = 200, status = "OK", message = "Created" } ;
-        } 
+
+            return new { code = 200, status = "OK", message = "Created" };
+        }
     }
 }

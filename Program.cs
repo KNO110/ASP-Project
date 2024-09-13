@@ -1,4 +1,4 @@
-using ASP_P15.Data;
+п»їusing ASP_P15.Data;
 using ASP_P15.Middleware.SessionAuth;
 using ASP_P15.Services;
 using ASP_P15.Services.Hash;
@@ -11,9 +11,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IOTPService, SixDigitOTPService>();
-/* Місце для реєстрації служб - між створенням builder та його використанням (app) 
- * Реєстрація - співставлення інтерфейсу з класом за формулою 
- * "Буде запит на IHashService - видати об'єкт класу Md5HashService"
+
+/* РњС–СЃС†Рµ РґР»СЏ СЂРµС”СЃС‚СЂР°С†С–С— СЃР»СѓР¶Р± - РјС–Р¶ СЃС‚РІРѕСЂРµРЅРЅСЏРј builder С‚Р° Р№РѕРіРѕ РІРёРєРѕСЂРёСЃС‚Р°РЅРЅСЏРј (app) 
+ * Р РµС”СЃС‚СЂР°С†С–СЏ - СЃРїС–РІСЃС‚Р°РІР»РµРЅРЅСЏ С–РЅС‚РµСЂС„РµР№СЃСѓ Р· РєР»Р°СЃРѕРј Р·Р° С„РѕСЂРјСѓР»РѕСЋ 
+ * "Р‘СѓРґРµ Р·Р°РїРёС‚ РЅР° IHashService - РІРёРґР°С‚Рё РѕР±'С”РєС‚ РєР»Р°СЃСѓ Md5HashService"
  */
 // builder.Services.AddSingleton<IHashService, Md5HashService>();
 builder.Services.AddSingleton<IHashService, ShaHashService>();
@@ -31,8 +32,8 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-// Реєструємо контекст даних
-builder.Services.AddDbContext<DataContext>( options => 
+// Р РµС”СЃС‚СЂСѓС”РјРѕ РєРѕРЅС‚РµРєСЃС‚ РґР°РЅРёС…
+builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("LocalDb")
     )
@@ -54,10 +55,10 @@ app.UseRouting();
 app.UseAuthorization();
 app.UseSession();
 
-// Наші Middleware
+// РќР°С€С– Middleware
 app.UseSessionAuth();
 
-app.MapControllerRoute(   // маршрутизатор
+app.MapControllerRoute(   // РјР°СЂС€СЂСѓС‚РёР·Р°С‚РѕСЂ
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 

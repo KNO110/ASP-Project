@@ -17,13 +17,32 @@ namespace ASP_P15.Controllers
         [HttpPost]
         public async Task<object> DoPost(ShopProductFormModel formModel)
         {
+                        ////////// Валидация данных
+            if (string.IsNullOrWhiteSpace(formModel.Name))
+            {
+                return new { code = 400, status = "error", message = "Назва товару обов'язкова." };
+            }
+
+            if (formModel.Price <= 0)
+            {
+                return new { code = 400, status = "error", message = "Ціна повинна бути більше нуля." };
+            }
+
+            if (formModel.Amount < 0)
+            {
+                return new { code = 400, status = "error", message = "Кількість не може бути від'ємною." };
+            }
+
             String uploadedName;
             try
             {
+                        // грузим файлы
                 uploadedName = _fileUploader.UploadFile(
                     formModel.ImageFile,
                     "./Uploads/Shop"
                 );
+    
+                ///добавление в бд новые данные
                 _dataContext.Products.Add(new()
                 {
                     Id = Guid.NewGuid(),
@@ -36,14 +55,17 @@ namespace ASP_P15.Controllers
                     Amount = formModel.Amount,
                     GroupId = formModel.GroupId,
                 });
+
                 await _dataContext.SaveChangesAsync();
             }
             catch (Exception ex)
             {
+                //// ловим ашибку
                 return new { code = 500, status = "error", message = ex.Message };
             }
 
-            return new { code = 200, status = "OK", message = "Created" };
+            //// всё топчик цины горобчик
+            return new { code = 200, status = "OK", message = "Товар успішно створено." };
         }
     }
 }
