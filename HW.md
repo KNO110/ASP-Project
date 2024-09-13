@@ -29,3 +29,9 @@
 ![image](https://github.com/user-attachments/assets/9a895a20-bc71-4fa0-a0c9-cdf9b6e7cb39)
 ![image](https://github.com/user-attachments/assets/ad148029-94ee-4ccb-a6d5-c365cb9dc4d3)
 
+Дз за 28.07.2024:
+![image](https://github.com/user-attachments/assets/b0b9c5d2-997e-4d3b-979b-f38768297eaf)
+![image](https://github.com/user-attachments/assets/f49ebd94-85a2-4bf5-966d-f09329aee46c)
+
+
+
