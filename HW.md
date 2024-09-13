@@ -17,3 +17,10 @@
 ![image](https://github.com/user-attachments/assets/48cd4dfa-bd28-40c6-91db-921e999aaa70)
 ![image](https://github.com/user-attachments/assets/50d9eb87-f653-4006-8a23-9adbc00faab4)
 Есть валидация как клиенсткая так и серверная, не знаю как показать, так что сервер не принимает пустые значения или некорректные
+
+ДЗ за 21.07.2024:
+В принципе я это сделал ещё раньше так что вот просто скрины
+![image](https://github.com/user-attachments/assets/a450f1fb-03d9-452c-a502-12f86b22f2c8)
+![image](https://github.com/user-attachments/assets/7089d0fd-478c-433d-b1fd-96e2878f3a99)
+![image](https://github.com/user-attachments/assets/5b74cf70-18cd-4b4d-9164-a135ef8778c9)
+
