@@ -31,7 +31,8 @@
 
 Дз за 28.07.2024:
 ![image](https://github.com/user-attachments/assets/b0b9c5d2-997e-4d3b-979b-f38768297eaf)
-![image](https://github.com/user-attachments/assets/f49ebd94-85a2-4bf5-966d-f09329aee46c)
+![image](https://github.com/user-attachments/assets/bc59d448-65d5-4f69-8ea3-ea8f50541fdc)
+
 
 
 
