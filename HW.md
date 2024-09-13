@@ -24,3 +24,8 @@
 ![image](https://github.com/user-attachments/assets/7089d0fd-478c-433d-b1fd-96e2878f3a99)
 ![image](https://github.com/user-attachments/assets/5b74cf70-18cd-4b4d-9164-a135ef8778c9)
 
+ДЗ за 23.07.2024:
+Это дз у меня уже было давно сделано так что вот просто скрины с моей бд, (миграцию делать лень для скрина)
+![image](https://github.com/user-attachments/assets/9a895a20-bc71-4fa0-a0c9-cdf9b6e7cb39)
+![image](https://github.com/user-attachments/assets/ad148029-94ee-4ccb-a6d5-c365cb9dc4d3)
+
