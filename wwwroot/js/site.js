@@ -1,39 +1,73 @@
 document.addEventListener('submit', (e) => {
   const form = e.target;
+
   if (form.id == 'shop-group-form') {
     e.preventDefault();
-    console.log('submit prevented');
+
+    // Валидация формы перед отправкой
+    const groupName = form.querySelector('[name="group-name"]').value.trim();
+    const groupDescription = form.querySelector('[name="group-description"]').value.trim();
+
+    if (!groupName || groupName.length > 100) {
+      alert('Название группы обязательно и должно быть не длиннее 100 символов.');
+      return;
+    }
+    if (!groupDescription || groupDescription.length > 500) {
+      alert('Описание группы обязательно и должно быть не длиннее 500 символов.');
+      return;
+    }
+
     const formData = new FormData(form);
     fetch("/api/group", {
       method: 'POST',
       body: formData
     }).then(r => r.json()).then(j => {
       if (j.status == 'OK') {
-        // alert('Додано успішно');
         window.location.reload();
-      }
-      else {
+      } else if (j.message) {
         alert(j.message);
+      } else {
+        alert('Произошла ошибка, данные не были отправлены');
       }
+    }).catch(err => {
+      console.error('Ошибка запроса:', err);
+      alert('Ошибка на стороне сервера.');
     });
   }
+
   else if (form.id == 'shop-product-form') {
     e.preventDefault();
+
+    // Валидация формы перед отправкой
+    const name = form.querySelector('[name="product-name"]').value.trim();
+    const price = form.querySelector('[name="product-price"]').value;
+
+    if (!name || name.length > 100) {
+      alert('Название продукта обязательно и должно быть не длиннее 100 символов.');
+      return;
+    }
+    if (!price || isNaN(price) || price <= 0) {
+      alert('Цена должна быть положительным числом.');
+      return;
+    }
+
     const formData = new FormData(form);
     fetch("/api/product", {
       method: 'POST',
       body: formData
     }).then(r => r.json()).then(j => {
       if (j.status == 'OK') {
-        // alert('Додано успішно');
         window.location.reload();
-      }
-      else {
+      } else if (j.message) {
         alert(j.message);
+      } else {
+        alert('Произошла ошибка, данные не были отправлены');
       }
+    }).catch(err => {
+      console.error('Ошибка запроса:', err);
+      alert('Ошибка на стороне сервера.');
     });
   }
-
 });
 
 
