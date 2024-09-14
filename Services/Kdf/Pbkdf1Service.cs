@@ -14,5 +14,10 @@ namespace ASP_P15.Services.Kdf
             String t2 = _hashService.Digest(t1);
             return t2;
         }
+
+        public string GenerateSalt()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

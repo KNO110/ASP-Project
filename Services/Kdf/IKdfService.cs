@@ -3,5 +3,6 @@
     public interface IKdfService
     {
         String DerivedKey(String password, String salt);
+        string GenerateSalt();
     }
 }

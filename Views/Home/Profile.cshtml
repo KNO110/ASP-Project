@@ -68,7 +68,7 @@
                         </div>
                         <div class="col-sm-8">
                             <div class="card-block">
-                                <h6 class="m-b-20 p-b-5 b-b-default f-w-600">Information</h6>
+                                <h6 class="m-b-20 p-b-5 b-b-default f-w-600">Інформація</h6>
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <p class="m-b-10 f-w-600">Email</p>
@@ -154,6 +154,91 @@
                                         }
                                     </div>
                                 </div>
+
+                                <div id="snackbar"></div>
+
+                                <div class="profile-section">
+                                    <div class="card-block">
+                                    <h6 class="m-b-20 p-b-5 b-b-default f-w-600">Зміна паролю</h6>
+                                    <form id="changePasswordForm" method="post" asp-action="ChangePassword" asp-controller="Profile" onsubmit="return submitChangePasswordForm();">
+                                        <div class="form-group">
+                                            <label for="oldPassword">Старый пароль</label>
+                                            <input type="password" class="form-control password-field" id="oldPassword" name="oldPassword" value="******" disabled>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="newPassword">Новый пароль</label>
+                                            <input type="password" class="form-control password-field" id="newPassword" name="newPassword" value="******" disabled>
+                                        </div>
+                                        <button type="button" class="btn btn-primary button-margin" id="edit-password-btn">Изменить пароль</button>
+                                        <button type="submit" class="btn btn-success button-margin" id="save-password-btn" style="display:none;">Сохранить изменения</button>
+                                    </form>
+                                </div>
+
+                                <script>
+                                    document.getElementById('edit-password-btn').addEventListener('click', function () {
+                                        var passwordFields = document.querySelectorAll('.password-field');
+                                        passwordFields.forEach(function (field) {
+                                            field.disabled = false;
+                                            field.value = ''; //// Очищаем значение для ввода
+                                        });
+
+                                        //// Показываем кнопошку сохранить
+                                        document.getElementById('save-password-btn').style.display = 'inline-block';
+                                        document.getElementById('edit-password-btn').style.display = 'none';    /// прячем кнопку изменить пароль
+                                    });
+
+                                    function submitChangePasswordForm() {
+                                        var form = document.getElementById('changePasswordForm');
+                                        var formData = new FormData(form);
+
+                                        fetch(form.action, {
+                                            method: 'POST',
+                                            body: formData,
+                                            headers: {
+                                                'X-Requested-With': 'XMLHttpRequest'
+                                            }
+                                        })
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                if (data.success) {
+                                                    /// отображаем успех через snack bar
+                                                    showSnackbar('Пароль успешно изменен.', 'success');
+
+                                                    //// Сбрасываем форму и возвращаем поля в исходное положение
+                                                    var passwordFields = document.querySelectorAll('.password-field');
+                                                    passwordFields.forEach(function (field) {
+                                                        field.disabled = true;
+                                                        field.value = '******';
+                                                    });
+                                                    document.getElementById('save-password-btn').style.display = 'none';
+                                                    document.getElementById('edit-password-btn').style.display = 'inline-block';
+                                                } else {
+                                                    /// Сообщение об ошибке черещ snackbar
+                                                    showSnackbar(data.error, 'error');
+                                                }
+                                            })
+                                            .catch(error => {
+                                                console.error('Error:', error);
+                                                showSnackbar('Произошла ошибка при смене пароля.', 'error');
+                                            });
+
+                                        return false; /// нет - стандартной отправкы формы
+                                    }
+
+                                    function showSnackbar(message, type) {
+                                        var snackbar = document.getElementById('snackbar');
+                                        snackbar.className = '';
+                                        snackbar.innerText = message;
+                                        snackbar.classList.add('show');
+                                        snackbar.classList.add(type);
+
+                                        /// через 3 секи снэк бар всё
+                                        setTimeout(function () {
+                                            snackbar.className = snackbar.className.replace('show', '');
+                                        }, 3000);
+                                    }
+                                </script>
+
 
                                 <ul class="social-link list-unstyled m-t-40 m-b-10">
                                     <li><a href="#!" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="facebook" data-abc="true"><i class="mdi mdi-facebook feather icon-facebook facebook" aria-hidden="true"></i></a></li>
