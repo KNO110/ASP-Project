@@ -44,6 +44,10 @@
 ![image](https://github.com/user-attachments/assets/dc40f9d3-9a29-4fb7-a838-a0e665996b65)
 ![image](https://github.com/user-attachments/assets/e9a4d02d-bc3b-4d34-b19d-c419fe0ecd3a)
 
+ДЗ за 25.08.2024:
+логер
+![image](https://github.com/user-attachments/assets/c92462e2-f3dd-4174-8e4b-5ca891dd8a59)
+![image](https://github.com/user-attachments/assets/e32f2c55-6417-49b2-a1df-74343cdebaab)
 
 
 
