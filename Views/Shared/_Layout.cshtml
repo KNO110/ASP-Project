@@ -85,13 +85,13 @@
             @if (isAuthenticated)
             {
                 <span>
-                    Авторизовано для: "@Context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value"
+                    Автентифікавано для: "@Context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value"
                     (@Context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value)
                 </span>
             }
             else
             {
-                <span>Вы не авторизованы</span>
+                <span>Ви ще не автентифіковані :(</span>
             }
         </div>
     </footer>
