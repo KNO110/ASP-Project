@@ -54,16 +54,18 @@
                                 <div class="m-b-25">
                                     @if (hasAvatar)
                                     {
-                                        <img class="img-radius" src="/Home/Download/@(avatar)" alt="avatar" />
+                                        <img class="img-radius mx-auto d-block" src="/Uploads/@(avatar)" alt="avatar" />
                                     }
                                     else
                                     {
                                         <b class="img-radius avatar-letter">@avatarLetter</b>
                                     }
+
                                 </div>
                                 <h6 class="f-w-600" profile-editable="name">@userName</h6>
                                 <p>З нами з @registered</p>
                                 <i id="profile-edit" class="bi bi-pencil-square"></i>
+                                <i id="profile-avatar-edit" class="bi bi-image" style="margin-left: 10px; cursor: pointer;"></i>
                             </div>
                         </div>
                         <div class="col-sm-8">

@@ -49,7 +49,7 @@
                         <a asp-controller="Home" asp-action="Profile" class="a-no-underline">
                             @if (hasAvatar)
                             {
-                                <img class="avatar" src="/Home/Download/@(avatar)" alt="avatar" />
+                                <img class="avatar" src="/Uploads/@(avatar)" alt="avatar" />
                             }
                             else
                             {
@@ -62,7 +62,6 @@
                     }
                     else
                     {
-                        <!-- Button trigger modal -->
                         <button type="button" class="btn btn-outline-secondary mx-2" data-bs-toggle="modal" data-bs-target="#authModal">
                             <i class="bi bi-box-arrow-in-right"></i>
                         </button>
@@ -97,7 +96,6 @@
     </footer>
 
 
-    <!-- Modal -->
     <div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -127,12 +125,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <div class="alert alert-danger" role="alert" id="auth-error" style="visibility:hidden"></div>
-                    <button type="button" class="btn btn-outline-warning" data-bs-dismiss="modal">Закрити</button>
-                    <button type="button" class="btn btn-outline-success" id="auth-button">Вхід</button>
+                <div class="modal-footer d-flex justify-content-between align-items-center">
+                    <button type="button" class="btn btn-outline-secondary" id="auth-recover-button">Відновити</button>
+
+                    <div class="d-flex align-items-center">
+                        <div class="alert alert-danger me-3 mb-0" role="alert" id="auth-error" style="visibility:hidden"></div>
+
+                        <button type="button" class="btn btn-outline-warning me-2" data-bs-dismiss="modal">Закрити</button>
+                        <button type="button" class="btn btn-outline-success" id="auth-button">Вхід</button>
+                    </div>
                 </div>
-            </div>
         </div>
     </div>
 

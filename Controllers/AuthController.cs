@@ -80,7 +80,7 @@ namespace ASP_P15.Controllers
                     {
                         status = "Ok",
                         code = 200,
-                        message = newToken.Id  // возвращаем новый токен клиенту
+                        message = newToken.Id  //// возвращаем новый токен клиенту
                     };
                 }
             }
@@ -105,7 +105,7 @@ namespace ASP_P15.Controllers
         [HttpPut]
         public async Task<object> DoPutAsync()
         {
-            // Дані, що передаються в тілі запиту доступні через Request.Body
+            ///// Дані, що передаються в тілі запиту доступні через Request.Body
             String body = await new StreamReader(Request.Body).ReadToEndAsync();
 
             _logger.LogWarning(body);
@@ -121,22 +121,22 @@ namespace ASP_P15.Controllers
             {
                 return new { code = 400, status = "Error", message = "No data" };
             }
-            if (email != null) 
+            if (email != null)
             {
                 var emailRegex = new Regex(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$");
-                if ( ! emailRegex.IsMatch(email))
+                if (!emailRegex.IsMatch(email))
                 {
                     return new { code = 422, status = "Error", message = "Email match no pattern" };
                 }
             }
             DateTime? birthDateTime = null;
-            if (birthdate != null) 
+            if (birthdate != null)
             {
                 try
                 {
                     birthDateTime = DateTime.Parse(birthdate);
                 }
-                catch 
+                catch
                 {
                     return new { code = 422, status = "Error", message = "Birthdate unparseable" };
                 }
@@ -163,7 +163,7 @@ namespace ASP_P15.Controllers
             {
                 user.Name = name;
             }
-            if (birthDateTime != null) 
+            if (birthDateTime != null)
             {
                 user.Birthdate = birthDateTime;
             }
@@ -173,17 +173,102 @@ namespace ASP_P15.Controllers
             return new { code = 200, status = "OK", message = "Updated" };
         }
 
+        private async Task<object> DoLink()
+        {
+            String body = await new StreamReader(Request.Body).ReadToEndAsync();
+
+            _logger.LogWarning(body);
+
+            JsonNode json = JsonSerializer.Deserialize<JsonNode>(body)
+                ?? throw new Exception("JSON in body is invalid");
+
+            String? email = json["email"]?.GetValue<String>();
+            String? password = json["password"]?.GetValue<String>();
+            String? dateStr = json["date"]?.GetValue<String>();
+
+            if (String.IsNullOrEmpty(email) || String.IsNullOrEmpty(password) || String.IsNullOrEmpty(dateStr))
+            {
+                return new
+                {
+                    status = "Error",
+                    code = 400,
+                    message = "Email, password and date must not be empty"
+                };
+            }
+
+            DateTime date;
+            try
+            {
+                date = DateTime.Parse(dateStr);
+            }
+            catch
+            {
+                return new { code = 422, status = "Error", message = "Date unparseable" };
+            }
+
+            ///// ищем юзера по емейлу даже если он был "удалён"
+            var user = _dataContext
+                .Users
+                .FirstOrDefault(u =>
+                    u.Email == email
+                ); 
+
+            if (user == null)
+            {
+                return new { code = 404, status = "Error", message = "User not found" };
+            }
+
+            //// проверяем соответсвие введённой даты с настоящей
+            if (user.Registered.Date != date.Date)
+            {
+                return new { code = 401, status = "Error", message = "Credentials rejected" };
+            }
+
+            //// проверяем пароль
+            if (_kdfService.DerivedKey(password, user.Salt) != user.Dk)
+            {
+                return new { code = 401, status = "Error", message = "Credentials rejected" };
+            }
+
+            ////воскрешаем юзера
+            user.DeleteDt = null;
+
+            await _dataContext.SaveChangesAsync();
+
+            ///генерим новый токен
+            Token newToken = new()
+            {
+                Id = Guid.NewGuid(),
+                UserId = user.Id,
+                ExpiresAt = DateTime.Now.AddHours(3),
+            };
+            _dataContext.Tokens.Add(newToken);
+            await _dataContext.SaveChangesAsync();
+            HttpContext.Session.SetString("token", newToken.Id.ToString());
+
+            return new
+            {
+                status = "Ok",
+                code = 200,
+                message = "Account restored",
+                token = newToken.Id.ToString()
+            };
+        }
+
+
         public async Task<object> DoOther()
         {
             switch (Request.Method)
             {
                 case "UNLINK": return await DoUnlink();
-                default: return new
-                {
-                    status = "error",
-                    code = 405,
-                    message = "Method Not Allowed"
-                };
+                case "LINK": return await DoLink();
+                default:
+                    return new
+                    {
+                        status = "error",
+                        code = 405,
+                        message = "Method Not Allowed"
+                    };
             }
         }
 
@@ -203,10 +288,11 @@ namespace ASP_P15.Controllers
             catch (Exception ex)
             {
                 _logger.LogError("DoUnlink Exception: {ex}", ex.Message);
-                return new { 
-                    code = 401, 
-                    status = "Error", 
-                    message = "UnAuthorized" 
+                return new
+                {
+                    code = 401,
+                    status = "Error",
+                    message = "UnAuthorized"
                 };
             }
 
@@ -217,23 +303,16 @@ namespace ASP_P15.Controllers
             }
 
             user.DeleteDt = DateTime.Now;
-            // Право бути забутим - видалення персональних даних
-            user.Name = "";
-            user.Email = "";
-            user.Birthdate = null;
-            if (user.Avatar != null)  // треба видалити файл-аватарку
-            {
-                String path = "./Uploads/";
-                System.IO.File.Delete(path + user.Avatar);
-                user.Avatar = null;
-            }
-            await _dataContext.SaveChangesAsync();   // фіксуємо зміни у БД
-            this.DoDelete();   // видаляємо токен
+            // Do not delete personal data to allow recovery
+            // Do not delete the avatar
+            await _dataContext.SaveChangesAsync();   // Save changes to the database
+            this.DoDelete();   // Remove the token
             return new
             {
                 status = "OK",
                 code = 200,
-                message = "Deleted"
+                message = "Deleted",
+                registeredDate = user.Registered.ToString("yyyy-MM-dd")
             };
         }
     }
