@@ -61,4 +61,10 @@
 ![image](https://github.com/user-attachments/assets/f11a7598-7255-402f-b50e-cb820a5f4519)
 ![image](https://github.com/user-attachments/assets/da0cf4d1-a57b-440c-be83-f0f14a4347b5)
 ![image](https://github.com/user-attachments/assets/b6164067-a8a7-4c51-8cf9-9912082cbd58)
+------------Часть с сменой аватара-------------------
+![image](https://github.com/user-attachments/assets/2b03778b-fe7e-45ec-989f-049d570c7aa8)
+![image](https://github.com/user-attachments/assets/283fd68b-225c-4f12-87e2-81c3d353b8d8)
+![image](https://github.com/user-attachments/assets/cb9403b6-709c-4099-a1eb-9378a8ebcdab)
+
+
 
