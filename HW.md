@@ -37,5 +37,17 @@
 ![image](https://github.com/user-attachments/assets/7b826102-7b95-4514-a244-7de03ca0c814)
 ![image](https://github.com/user-attachments/assets/08f74578-cd6a-46b3-80ed-e4a7b084deed)
 
+Дз за 23.08.2024:
+Использовал снек бар)
+![image](https://github.com/user-attachments/assets/b2db5a19-d545-4c4b-8184-8aafa5660417)
+![image](https://github.com/user-attachments/assets/6eff2bd0-89c2-4d82-957f-7ad1073902cc)
+![image](https://github.com/user-attachments/assets/dc40f9d3-9a29-4fb7-a838-a0e665996b65)
+![image](https://github.com/user-attachments/assets/e9a4d02d-bc3b-4d34-b19d-c419fe0ecd3a)
+
+ДЗ за 25.08.2024:
+логер
+![image](https://github.com/user-attachments/assets/c92462e2-f3dd-4174-8e4b-5ca891dd8a59)
+![image](https://github.com/user-attachments/assets/e32f2c55-6417-49b2-a1df-74343cdebaab)
+
 
 
