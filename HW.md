@@ -33,6 +33,9 @@
 ![image](https://github.com/user-attachments/assets/b0b9c5d2-997e-4d3b-979b-f38768297eaf)
 ![image](https://github.com/user-attachments/assets/bc59d448-65d5-4f69-8ea3-ea8f50541fdc)
 
+ДЗ за 30.07.2024:
+![image](https://github.com/user-attachments/assets/7b826102-7b95-4514-a244-7de03ca0c814)
+![image](https://github.com/user-attachments/assets/08f74578-cd6a-46b3-80ed-e4a7b084deed)
 
 
 
