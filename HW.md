@@ -49,5 +49,9 @@
 ![image](https://github.com/user-attachments/assets/c92462e2-f3dd-4174-8e4b-5ca891dd8a59)
 ![image](https://github.com/user-attachments/assets/e32f2c55-6417-49b2-a1df-74343cdebaab)
 
+ДЗ за 27.08.2024: (в таблице видно что данные поменялись)
+![image](https://github.com/user-attachments/assets/6cccf1c7-acb9-4731-9fe8-b7772227caad)
+![image](https://github.com/user-attachments/assets/7e081f5c-d9f8-45d8-bebe-09931c1b4d0a)
+![image](https://github.com/user-attachments/assets/6880f0d5-d77d-4608-9578-5334bade46fe)
 
 
