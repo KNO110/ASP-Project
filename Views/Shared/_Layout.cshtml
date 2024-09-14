@@ -78,9 +78,21 @@
             @RenderBody()
         </main>
     </div>
+
     <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - ASP_P15 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        <div class="container d-flex justify-content-between">
+            <span>&copy; 2024 - ASP_P15/ak1ne/ - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></span>
+            @if (isAuthenticated)
+            {
+                <span>
+                    Авторизовано для: "@Context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value"
+                    (@Context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value)
+                </span>
+            }
+            else
+            {
+                <span>Вы не авторизованы</span>
+            }
         </div>
     </footer>
 
