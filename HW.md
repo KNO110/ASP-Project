@@ -54,4 +54,11 @@
 ![image](https://github.com/user-attachments/assets/7e081f5c-d9f8-45d8-bebe-09931c1b4d0a)
 ![image](https://github.com/user-attachments/assets/6880f0d5-d77d-4608-9578-5334bade46fe)
 
+ДЗ за 21.08.2024: (сделал ещё кнопку для смены аватара)
+![image](https://github.com/user-attachments/assets/b7e6d518-7483-4988-877b-715a0ae1d417)
+![image](https://github.com/user-attachments/assets/02a3bfd7-0f93-4fbd-be05-35e72ed2e2d4)
+![image](https://github.com/user-attachments/assets/237327ab-b6d2-46c4-826e-540cf6660853)
+![image](https://github.com/user-attachments/assets/f11a7598-7255-402f-b50e-cb820a5f4519)
+![image](https://github.com/user-attachments/assets/da0cf4d1-a57b-440c-be83-f0f14a4347b5)
+![image](https://github.com/user-attachments/assets/b6164067-a8a7-4c51-8cf9-9912082cbd58)
 
