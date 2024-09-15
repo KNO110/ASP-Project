@@ -76,3 +76,14 @@
 ![image](https://github.com/user-attachments/assets/468761c6-7f46-4e8c-a5cd-9a1c4fccb2b7)
 ![image](https://github.com/user-attachments/assets/db4036b1-3cc0-4f92-9aed-2a3a05de27d6)
 
+ДЗ за 03.09.2024:
+![image](https://github.com/user-attachments/assets/abd440cc-4be2-4fed-9735-fae62637a15b)
+![image](https://github.com/user-attachments/assets/65ec24f1-a51e-43fc-bed0-a3e8b22b7f3a)
+![image](https://github.com/user-attachments/assets/d2a077c0-5d94-403a-892c-486212416227)
+![image](https://github.com/user-attachments/assets/6eb90019-3b78-40b3-be0e-9774e0963547)
+![image](https://github.com/user-attachments/assets/a84458dc-0530-4377-a638-f8cac5decd74)
+
+
+
+
+
