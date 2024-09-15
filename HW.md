@@ -71,4 +71,8 @@
 ![image](https://github.com/user-attachments/assets/2a57082a-901e-4364-ab61-60829f9e35af)
 ![image](https://github.com/user-attachments/assets/de24d7f3-dd05-490c-8431-b70ce8dc185b)
 
+ДЗ за 14.09.2024:
+хз как это дз показать, ну вот код из проекта
+![image](https://github.com/user-attachments/assets/468761c6-7f46-4e8c-a5cd-9a1c4fccb2b7)
+![image](https://github.com/user-attachments/assets/db4036b1-3cc0-4f92-9aed-2a3a05de27d6)
 
