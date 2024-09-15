@@ -8,7 +8,7 @@
 }
 
 <div class="row">
-    <div class="col col-6">
+    <div class="col col-5">
         <img class="product-picture" src="/Home/Download/Shop_@(Model.Product.Image)" alt="Picture" />
     </div>
     <div class="col col-6">
@@ -96,13 +96,86 @@
     .Take(5))
     {
         <div class="col col-2">
-            <a asp-action="Product" asp-route-id="@(product.Slug ?? product.Id.ToString())">
-                <img class="product-picture" src="/Home/Download/Shop_@(product.Image)" alt="Picture" />
-                <p>@product.Name</p>
-            </a>
+            <div class="product-card">
+                <a asp-action="Product" asp-route-id="@(product.Slug ?? product.Id.ToString())">
+                    <img class="product-picture" src="/Home/Download/Shop_@(product.Image)" alt="Picture" />
+                    <p>@product.Name</p>
+                    <h4>₴ @product.Price.ToString("F2")</h4>
+                </a>
+                <div class="product-description">
+                    <p>@product.Description</p>
+                </div>
+            </div>
         </div>
+
     }
 </div>
+
+<style>
+    .product-picture-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+
+    .product-picture {
+        max-width: 100%;
+        max-height: 400px;
+        object-fit: contain;
+        border: 3px solid #293133;
+        border-radius: 10px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .product-card {
+        width: 100%;
+        height: 370px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        text-align: center;
+        padding: 15px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .product-card:hover .product-picture {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+    .product-description {
+        display: none;
+        position: absolute;
+        background-color: white;
+        padding: 10px;
+        border: 1px solid #ccc;
+        z-index: 10;
+        max-width: 300px;
+    }
+
+    .product-card:hover .product-description {
+        display: block;
+    }
+
+    .product-card:hover {
+        transform: scale(1.05);
+    }
+
+    .product-card h4 {
+        color: #28a745;
+        font-weight: bold;
+        margin: 10px 0;
+    }
+
+    .product-card p {
+        margin-bottom: 5px;
+        font-size: 1.1rem;
+    }
+</style>
 
 @*
     Т.З.
