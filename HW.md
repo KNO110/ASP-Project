@@ -66,5 +66,9 @@
 ![image](https://github.com/user-attachments/assets/283fd68b-225c-4f12-87e2-81c3d353b8d8)
 ![image](https://github.com/user-attachments/assets/cb9403b6-709c-4099-a1eb-9378a8ebcdab)
 
+ДЗ за 22.08.2024:
+![image](https://github.com/user-attachments/assets/266fb8ec-deaf-446b-84a4-0cd434503908)
+![image](https://github.com/user-attachments/assets/2a57082a-901e-4364-ab61-60829f9e35af)
+![image](https://github.com/user-attachments/assets/de24d7f3-dd05-490c-8431-b70ce8dc185b)
 
 
