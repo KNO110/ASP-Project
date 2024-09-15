@@ -239,28 +239,30 @@ function feedbackDeleteClick(e) {
 }
 
 function feedbackEditClick(e) {
-        ///// feedbackId - беремо з кнопки, що натискається
   const feedbackId = e.target.closest('[data-feedback-id]').getAttribute('data-feedback-id');
-      ///// за знайденим feedbackId шукаємо текст коментаря та його оцінку
-  let text = document
-    .querySelector(`[data-feedback-id="${feedbackId}"][data-role="feedback-text"]`)
-    .innerText;
-  let rate = document
-    .querySelector(`[data-feedback-id="${feedbackId}"][data-role="feedback-rate"]`)
-    .getAttribute('data-value');
-      //// переносимо дані у блок редагування
+
+  let text = document.querySelector(`[data-feedback-id="${feedbackId}"][data-role="feedback-text"]`).innerText;
+  let rate = document.querySelector(`[data-feedback-id="${feedbackId}"][data-role="feedback-rate"]`).getAttribute('data-value');
+
   document.getElementById("product-feedback-rate").value = rate;
   document.getElementById("product-feedback").value = text;
+
   document.getElementById("product-feedback-title").innerHTML =
-    'Редагувати відгук: <button onclick="productFeedbackCancelEdit()" class="btn btn-danger"><i class="bi bi-x-lg"></i></button>';
-      //// помічаємо "форму" - додаємо до кнопки додатковий атрибут
+    `Редагувати відгук <button onclick="productFeedbackCancelEdit()" class="btn btn-danger"><i class="bi bi-x-lg"></i> Скасувати</button>`;
+
   document.getElementById("product-feedback-button").setAttribute('data-edit-id', feedbackId);
-        //// console.log('Edit click ' + rate + ' ' + text);
 }
 
+
 function productFeedbackCancelEdit() {
-  console.log("Edit cancelled");
+  document.getElementById("product-feedback-rate").value = 5;
+  document.getElementById("product-feedback").value = "";
+
+  document.getElementById("product-feedback-title").innerText = "Додати відгук";
+
+  document.getElementById("product-feedback-button").removeAttribute('data-edit-id');
 }
+
 
 function productFeedbackClick(e) {
   const txtarea = document.getElementById("product-feedback");
