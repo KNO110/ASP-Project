@@ -31,51 +31,73 @@ namespace ASP_P15.Controllers
         [HttpPost]
         public async Task<RestResponse<String>> DoPost([FromBody] FeedbackFormModel model)
         {
+            if (!model.UserId.HasValue)
+            {
+                return new RestResponse<String>
+                {
+                    Meta = new() { Service = "Feedback" },
+                    Data = "Error: Missing required parameter 'UserId'"
+                };
+            }
+
+            if (!model.ProductId.HasValue)
+            {
+                return new RestResponse<String>
+                {
+                    Meta = new() { Service = "Feedback" },
+                    Data = "Error: Missing required parameter 'ProductId'"
+                };
+            }
+
             _dataContext.Feedbacks.Add(new()
             {
-                UserId = model.UserId!.Value,
-                ProductId = model.ProductId!.Value,
+                UserId = model.UserId.Value,
+                ProductId = model.ProductId.Value,
                 Text = model.Text,
                 Rate = model.Rate,
             });
             await _dataContext.SaveChangesAsync();
 
-            return new()
+            return new RestResponse<String>
             {
-                Meta = new()
-                {
-                    Service = "Feedback",
-                },
-                Data = "Created",
+                Meta = new() { Service = "Feedback" },
+                Data = "Created"
             };
         }
 
         [HttpPut]
         public async Task<RestResponse<String>> DoPut([FromBody] FeedbackFormModel model)
         {
-            // готуємо відповідь
-            RestResponse<String> response = new()
+            if (!model.EditId.HasValue)
             {
-                Meta = new()
+                return new RestResponse<String>
                 {
-                    Service = "Feedback",
-                },
+                    Meta = new() { Service = "Feedback" },
+                    Data = "Error: Missing required parameter 'EditId'"
+                };
+            }
+
+            var feedback = _dataContext.Feedbacks.Find(model.EditId.Value);
+            if (feedback == null)
+            {
+                return new RestResponse<String>
+                {
+                    Meta = new() { Service = "Feedback" },
+                    Data = "Not Found"
+                };
+            }
+
+            feedback.Text = model.Text;
+            feedback.Rate = model.Rate;
+            await _dataContext.SaveChangesAsync();
+
+            return new RestResponse<String>
+            {
+                Meta = new() { Service = "Feedback" },
+                Data = "Updated"
             };
-            // шукаємо відгук за editId
-            var feedback = _dataContext.Feedbacks.Find(model.EditId!.Value);
-            if(feedback == null)               // Якщо не знаходимо
-            {
-                response.Data = "Not Found";   // то повертаємо відповідне повідомлення
-            }
-            else                               // Якщо знаходимо
-            {
-                feedback.Text = model.Text;    // то вносимо відповідні зміни 
-                feedback.Rate = model.Rate;    // та зберігаємо
-                await _dataContext.SaveChangesAsync();
-                response.Data = "Updated";
-            }
-            return response;
         }
+
 
         [HttpDelete]
         public async Task<RestResponse<String>> DoDelete([FromQuery] String id)
