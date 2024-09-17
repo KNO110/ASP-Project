@@ -4,7 +4,7 @@
 ![image](https://github.com/user-attachments/assets/94224deb-520b-4a3d-8d0d-ab3980d07cb7)
 ![image](https://github.com/user-attachments/assets/1d051974-b221-4e0c-ac3d-535f01555299)
 
-ДЗ за 
+ДЗ за 06.09.2024:
 ![image](https://github.com/user-attachments/assets/97f14492-ae47-43ab-aa3b-e342b8840422)
 
 
