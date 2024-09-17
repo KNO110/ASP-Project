@@ -1,4 +1,22 @@
-﻿<h1>Ваш кошик</h1>
+﻿@using System.Security.Claims
+@{
+    bool isAuthenticated = Context.User.Identity?.IsAuthenticated ?? false;
+    String? userId = Context.User.Claims
+        .FirstOrDefault(c => c.Type == ClaimTypes.Sid)
+        ?.Value;
+}
 
-<div id="cart-container"></div>
+@if (isAuthenticated)
+{
+    <h1>Ваш кошик</h1>
 
+    <div id="cart-container" data-user-id="@userId"></div>
+
+    <a asp-action="Index" class="btn btn-info">До магазину</a>
+
+    <script src="~/js/cart.js"></script>
+}
+else
+{
+    <h1>Кошик буде доступний після входу в систему</h1>
+}

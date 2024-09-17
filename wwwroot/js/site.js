@@ -99,14 +99,14 @@ document.addEventListener('DOMContentLoaded', () => {
   for (const btn of document.querySelectorAll('[data-role="feedback-edit"]')) {
     btn.addEventListener('click', feedbackEditClick);
   }
+  for (const btn of document.querySelectorAll('[data-role="add-to-cart"]')) {
+    btn.addEventListener('click', addToCartClick);
+  }
   for (const btn of document.querySelectorAll('[data-role="feedback-delete"]')) {
     btn.addEventListener('click', feedbackDeleteClick);
   }
   for (const btn of document.querySelectorAll('[data-role="feedback-restore"]')) {
     btn.addEventListener('click', feedbackRestoreClick);
-  }
-  for (const btn of document.querySelectorAll('[data-role="add-to-cart"]')) {
-    btn.addEventListener('click', addToCartClick);
   }
   const profileAvatarEditButton = document.getElementById('profile-avatar-edit');
   if (profileAvatarEditButton) {
@@ -153,6 +153,29 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+function addToCartClick(e) {
+  const btn = e.target.closest('[data-role="add-to-cart"]');
+  const userId = btn.getAttribute("data-user-id");
+  const productId = btn.getAttribute("data-product-id");
+  if (!userId) {
+    alert("Треба увійти до системи");
+    return;
+  }
+  fetch("/api/cart", {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      userId,
+      productId,
+      cnt: 1
+    })
+  }).then(r => r.json()).then(console.log);
+
+  console.log(userId, productId);
+}
+
 function authRecoverClick() {
   if (!document.querySelector('[name="auth-user-date"]')) {
     const modalBody = document.querySelector('#authModal .modal-body');
@@ -178,30 +201,6 @@ function authRecoverClick() {
     const authRecoverButton = document.getElementById("auth-recover-button");
     authRecoverButton.style.display = 'none';
   }
-}
-
-
-function addToCartClick(e) {
-  const btn = e.target.closest('[data-role="add-to-cart"]');
-  const userId = btn.getAttribute("data-user-id");
-  const productId = btn.getAttribute("data-product-id");
-  if (!userId) {
-    alert("Треба увійти до системи");
-    return;
-  }
-  fetch("/api/cart", {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      userId,
-      productId,
-      cnt: 1
-    })
-  }).then(r => r.json()).then(console.log);
-
-  console.log(userId, productId);
 }
 
 function feedbackRestoreClick(e) {

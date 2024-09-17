@@ -6,23 +6,24 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ASP_P15.Migrations
 {
     /// <inheritdoc />
-    public partial class DelFeedback : Migration
+    public partial class FeedbackUpdate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<DateTime>(
-                name: "DeleteDt",
+                name: "CreatedAt",
                 table: "Feedbacks",
                 type: "datetime2",
-                nullable: true);
+                nullable: false,
+                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "DeleteDt",
+                name: "CreatedAt",
                 table: "Feedbacks");
         }
     }

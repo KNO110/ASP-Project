@@ -173,6 +173,15 @@ body {
     margin-bottom: 30px;
 }
 
+cart-product-item {
+    border: 1px solid lightgray;
+}
+
+.cart-product-item img {
+    width: 100%;
+}
+
+
 .m-r-0 {
     margin-right: 0px;
 }

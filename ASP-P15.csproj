@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Migrations\" />
     <Folder Include="Uploads\Shop\" />
     <Folder Include="Views\Extra\" />
     <Folder Include="Views\Home\DisplayTemplates\" />
