@@ -83,7 +83,9 @@
 ![image](https://github.com/user-attachments/assets/6eb90019-3b78-40b3-be0e-9774e0963547)
 ![image](https://github.com/user-attachments/assets/a84458dc-0530-4377-a638-f8cac5decd74)
 
-
+ДЗ за 24.09.2024:
+![image](https://github.com/user-attachments/assets/68248851-c33c-471c-a258-5b7477122d7e)
+![image](https://github.com/user-attachments/assets/f5cb16ce-b002-446d-b038-f4447ffebb9a)
 
 
 
