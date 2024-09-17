@@ -49,13 +49,16 @@ namespace ASP_P15.Controllers
                 };
             }
 
-            _dataContext.Feedbacks.Add(new()
+            var feedback = new Feedback
             {
                 UserId = model.UserId.Value,
                 ProductId = model.ProductId.Value,
                 Text = model.Text,
                 Rate = model.Rate,
-            });
+                CreatedAt = DateTime.Now  // Установлюємо поточну дату і час
+            };
+
+            _dataContext.Feedbacks.Add(feedback);
             await _dataContext.SaveChangesAsync();
 
             return new RestResponse<String>
@@ -64,6 +67,7 @@ namespace ASP_P15.Controllers
                 Data = "Created"
             };
         }
+
 
         [HttpPut]
         public async Task<RestResponse<String>> DoPut([FromBody] FeedbackFormModel model)

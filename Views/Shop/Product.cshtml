@@ -1,4 +1,4 @@
-﻿﻿@using System.Security.Claims
+﻿@using System.Security.Claims
 @model ASP_P15.Models.Shop.ShopProductPageModel
 @{
     bool isAuthenticated = Context.User.Identity?.IsAuthenticated ?? false;
@@ -22,6 +22,7 @@
             <i class="bi bi-cart3"></i> До кошику
         </button>
 
+        <!-- Виведення відгуків -->
         <div class="row">
             <b>Відгуки про товар:</b>
             @if (Model.Product.Feedbacks.Count() == 0)
@@ -31,26 +32,42 @@
             else foreach (var feedback in Model.Product.Feedbacks)
                 {
                     bool isMine = isAuthenticated && feedback.User?.Id.ToString() == userId;
-                    String myClass = isMine
-                    ? "my-product-feedback"
-                    : String.Empty;
+                    String myClass = isMine ? "my-product-feedback" : String.Empty;
 
                     <div class="product-feedback @myClass">
-                        <i>@DateTime.FromBinary(638610555513750564).ToShortDateString()</i>
+                        <!-- Відображення часу створення відгуку -->
+                        @if (feedback.CreatedAt.Date == DateTime.Today)
+                        {
+                            <i>Сьогодні о @feedback.CreatedAt.ToShortTimeString()</i>
+                        }
+                        else if (feedback.CreatedAt.Date == DateTime.Today.AddDays(-1))
+                        {
+                            <i>Вчора о @feedback.CreatedAt.ToShortTimeString()</i>
+                        }
+                        else
+                        {
+                            <i>@feedback.CreatedAt.ToShortDateString()</i>
+                        }
+
                         <b>@(feedback.User?.Name ?? "Анонімно"):</b>
-                        <p data-feedback-id="@feedback.Id"
-                           data-role="feedback-text">@(feedback.Text)</p>
+                        <p data-feedback-id="@feedback.Id" data-role="feedback-text">@feedback.Text</p>
 
                         <div class="d-flex justify-content-between">
                             <div data-feedback-id="@feedback.Id"
                                  data-role="feedback-rate"
                                  data-value="@feedback.Rate">
+                                <!-- Зірочки рейтингу -->
                                 @for (int i = 0; i < feedback.Rate; ++i)
                                 {
-                                    @* <span>✭</span> *@
                                     <span class="bi bi-star-fill"></span>
                                 }
+                                @for (int i = feedback.Rate; i < 5; ++i)
+                                {
+                                    <span class="bi bi-star"></span>
+                                }
                             </div>
+
+                            <!-- Кнопки редагування та видалення відгуку -->
                             @if (isMine)
                             {
                                 <div>
@@ -70,30 +87,26 @@
                     </div>
                 }
         </div>
+
+        <!-- Додати новий відгук -->
         @if (isAuthenticated)
         {
             <div class="row">
                 <b id="product-feedback-title">Додати відгук:</b><br />
-                <input type="number" id="product-feedback-rate"
-                       value="5" min="1" max="5" />
-                <br />
+                <input type="number" id="product-feedback-rate" value="5" min="1" max="5" /><br />
                 <textarea id="product-feedback"
                           data-user-id="@userId"
                           data-product-id="@(Model.Product.Id)"></textarea><br />
                 <button id="product-feedback-button" class="btn btn-outline-info">Надіслати</button>
             </div>
         }
-
     </div>
 </div>
 
+<!-- Вас також може зацікавити -->
 <h2>Вас також може зацікавити</h2>
 <div class="row">
-    @foreach (var product in @Model
-    .ProductGroup
-    .Products
-    .Where(p => p != Model.Product)
-    .Take(5))
+    @foreach (var product in @Model.ProductGroup.Products.Where(p => p != Model.Product).Take(5))
     {
         <div class="col col-2">
             <a asp-action="Product" asp-route-id="@(product.Slug ?? product.Id.ToString())">
