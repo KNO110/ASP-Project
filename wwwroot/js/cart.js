@@ -15,6 +15,10 @@ function loadCart() {
       let html = "";
       if (j.data == null || j.data.cartProducts == null || j.data.cartProducts.length == 0) {
         html = "Кошик порожній";
+        const cartTotalItems = document.getElementById('cart-total-items');
+        if (cartTotalItems) {
+          cartTotalItems.innerText = 0;
+        }
       }
       else {
         let total = 0;
@@ -30,14 +34,14 @@ function loadCart() {
                         <p class="text-muted">${cartProduct.product.description}</p>
                     </div>
                     <div class="col col-2 cart-product-calc">
-                        <div class="d-flex justify-content-between  align-items-center">
-                            <button onclick="decrementClick(event)">-</button>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <button class="decrement-btn">-</button>
                             <b data-role="cart-product-cnt">${cartProduct.cnt}</b>
-                            <button onclick="incrementClick(event)">+</button>
+                            <button class="increment-btn">+</button>
                         </div>
                         <div class="text-center mx-auto cart-product-sum" >
                             ₴ <span data-role="cart-product-sum"
-                                data-price="${cartProduct.product.price}">${cartProduct.cnt * cartProduct.product.price}</span>
+                                data-price="${cartProduct.product.price}">${(cartProduct.cnt * cartProduct.product.price).toFixed(2)}</span>
                         </div>
                     </div>
                 </div>`;
@@ -46,27 +50,57 @@ function loadCart() {
         }
         if (totalCnt > 0) {
           html += `<div class="d-flex align-items-center justify-content-center my-2">
-                    <b>Разом: <span data-role="cart-total">${total}</span> грн</b>
+                    <b>Разом: <span data-role="cart-total">${total.toFixed(2)}</span> грн</b>
                 </div>`;
         }
 
         html += '</div></div>';
+
+        const cartTotalItems = document.getElementById('cart-total-items');
+        if (cartTotalItems) {
+          cartTotalItems.innerText = totalCnt;
+        }
       }
       container.innerHTML = html;
+
+      addCartEventListeners();
     });
+}
+
+function addCartEventListeners() {
+  const decrementButtons = document.querySelectorAll('.decrement-btn');
+  const incrementButtons = document.querySelectorAll('.increment-btn');
+
+  decrementButtons.forEach(button => {
+    button.addEventListener('click', decrementClick);
+  });
+
+  incrementButtons.forEach(button => {
+    button.addEventListener('click', incrementClick);
+  });
 }
 
 function updateTotal() {
   let total = 0;
+  let totalCnt = 0;
   for (let s of document.querySelectorAll('[data-role="cart-product-sum"]')) {
     total += Number(s.innerHTML);
   }
-  document.querySelector('[data-role="cart-total"]').innerHTML = total;
+  for (let cnt of document.querySelectorAll('[data-role="cart-product-cnt"]')) {
+    totalCnt += Number(cnt.innerHTML);
+  }
+  document.querySelector('[data-role="cart-total"]').innerHTML = total.toFixed(2);
+
+  const cartTotalItems = document.getElementById('cart-total-items');
+  if (cartTotalItems) {
+    cartTotalItems.innerText = totalCnt;
+  }
 }
 
 function decrementClick(e) {
   updateCart(e, -1);
 }
+
 function incrementClick(e) {
   updateCart(e, 1);
 }
@@ -84,15 +118,7 @@ function updateCart(e, increment) {
     const cntBlock = parentBlock.querySelector('[data-role="cart-product-cnt"]');
     cntBlock.innerHTML = j.meta.count;
     const sumBlock = parentBlock.querySelector('[data-role="cart-product-sum"]');
-    sumBlock.innerHTML = j.meta.count * sumBlock.getAttribute('data-price');
+    sumBlock.innerHTML = (j.meta.count * sumBlock.getAttribute('data-price')).toFixed(2);
     updateTotal();
-    // console.log(j);
   });
 }
-
-/* Д.З. Реалізувати на сторінці кошику відображення загальної кількості
-товарів у кошику:
-Разом: 123 грн --> Разом 4 товари на суму: 123 грн
-Забезпечити оновлення цієї кількості при змінах у кошику (додавання
-чи віднімання товарів)
-*/

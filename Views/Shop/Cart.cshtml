@@ -9,7 +9,9 @@
 @if (isAuthenticated)
 {
     <h1>Ваш кошик</h1>
-
+    <div>
+        <span id="cart-item-count">Товарів у кошику: <span id="cart-total-items" data-user-id="@userId">0</span></span>
+    </div>
     <div id="cart-container" data-user-id="@userId"></div>
 
     <a asp-action="Index" class="btn btn-info">До магазину</a>

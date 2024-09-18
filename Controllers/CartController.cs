@@ -37,33 +37,21 @@ namespace ASP_P15.Controllers
         }
 
         [HttpPost]
-        public async Task<RestResponse<String>> DoPost(
-                            [FromBody] CartFormModel formModel)
+        public async Task<IActionResult> DoPost([FromBody] CartFormModel formModel)
         {
-            RestResponse<String> response = new()
-            {
-                Meta = new()
-                {
-                    Service = "Cart",
-                },
-            };
             if (formModel.UserId == default)
             {
-                response.Data = "Error 401: Unauthorized";
-                return response;
+                return Unauthorized(new { status = "Error", message = "Ви не авторизовані." });
             }
             if (formModel.ProductId == default)
             {
-                response.Data = "Error 422: Missing Product Id";
-                return response;
+                return BadRequest(new { status = "Error", message = "Відсутній ідентифікатор товару." });
             }
             if (formModel.Cnt <= 0)
             {
-                response.Data = "Error 422: Positive Cnt expected";
-                return response;
+                return BadRequest(new { status = "Error", message = "Кількість повинна бути більше нуля." });
             }
-            // Чи є у користувача відкритий кошик? Якщо є, то додаємо
-            // товари до нього, якщо немає, то створюємо і додаємо до нового
+
             var cart = _dataContext
                 .Carts
                 .FirstOrDefault(c =>
@@ -71,52 +59,51 @@ namespace ASP_P15.Controllers
                     c.CloseDt == null &&
                     c.DeleteDt == null);
 
-            if (cart == null)   // немає відкритого кошику, треба створювати
+            if (cart == null)
             {
                 Guid cartId = Guid.NewGuid();
-                _dataContext.Carts.Add(new()
+                cart = new Cart
                 {
                     Id = cartId,
                     UserId = formModel.UserId,
                     CreateDt = DateTime.Now,
-                });
-                _dataContext.CartProducts.Add(new()
+                };
+                _dataContext.Carts.Add(cart);
+            }
+
+            var cartProduct = _dataContext
+                .CartProducts
+                .FirstOrDefault(cp =>
+                    cp.CartId == cart.Id &&
+                    cp.ProductId == formModel.ProductId);
+
+            if (cartProduct == null)
+            {
+                cartProduct = new CartProduct
                 {
                     Id = Guid.NewGuid(),
-                    CartId = cartId,
+                    CartId = cart.Id,
                     ProductId = formModel.ProductId,
                     Cnt = formModel.Cnt,
-                });
+                };
+                _dataContext.CartProducts.Add(cartProduct);
             }
-            else   // є відкритий кошик, треба додавати до нього
+            else
             {
-                // треба перевірити, чи є вже такий товар у кошику,
-                // якщо є, то збільшити кількість, якщо немає, то додати
-                var cartProduct = _dataContext
-                    .CartProducts
-                    .FirstOrDefault(cp =>
-                        cp.CartId == cart.Id &&
-                        cp.ProductId == formModel.ProductId);
-
-                if (cartProduct == null)   // такого товару немає в кошику
-                {
-                    _dataContext.CartProducts.Add(new()
-                    {
-                        Id = Guid.NewGuid(),
-                        CartId = cart.Id,
-                        ProductId = formModel.ProductId,
-                        Cnt = formModel.Cnt,
-                    });
-                }
-                else  // такий товар є в кошику
-                {
-                    cartProduct.Cnt += formModel.Cnt;
-                }
+                cartProduct.Cnt += formModel.Cnt;
             }
+
             await _dataContext.SaveChangesAsync();
-            response.Data = "Added";
-            return response;
+
+            int totalItems = _dataContext.CartProducts
+                .Include(cp => cp.Cart)
+                .Where(cp => cp.Cart.UserId == formModel.UserId && cp.Cart.CloseDt == null && cp.Cart.DeleteDt == null)
+                .Sum(cp => cp.Cnt);
+
+            return Ok(new { status = "OK", totalItems = totalItems });
         }
+
+
 
         [HttpPut]
         public async Task<RestResponse<String>> DoPut(

@@ -21,8 +21,9 @@
                 data-role="add-to-cart">
             <i class="bi bi-cart3"></i> До кошику
         </button>
-
-        <!-- Виведення відгуків -->
+        <div>
+            <span id="cart-item-count">Товарів у кошику: <span id="cart-total-items" data-user-id="@userId">0</span></span>
+        </div>
         <div class="row">
             <b>Відгуки про товар:</b>
             @if (Model.Product.Feedbacks.Count() == 0)
@@ -35,7 +36,7 @@
                     String myClass = isMine ? "my-product-feedback" : String.Empty;
 
                     <div class="product-feedback @myClass">
-                        <!-- Відображення часу створення відгуку -->
+
                         @if (feedback.CreatedAt.Date == DateTime.Today)
                         {
                             <i>Сьогодні о @feedback.CreatedAt.ToShortTimeString()</i>
@@ -88,7 +89,7 @@
                 }
         </div>
 
-        <!-- Додати новий відгук -->
+
         @if (isAuthenticated)
         {
             <div class="row">
@@ -103,15 +104,19 @@
     </div>
 </div>
 
-<!-- Вас також може зацікавити -->
+
 <h2>Вас також може зацікавити</h2>
 <div class="row">
     @foreach (var product in @Model.ProductGroup.Products.Where(p => p != Model.Product).Take(5))
     {
         <div class="col col-2">
             <a asp-action="Product" asp-route-id="@(product.Slug ?? product.Id.ToString())">
-                <img class="product-picture" src="/Home/Download/Shop_@(product.Image)" alt="Picture" />
-                <p>@product.Name</p>
+                <div class="product-card">
+                    <div class="product-picture-container">
+                        <img class="product-picture" src="/Home/Download/Shop_@(product.Image)" alt="Picture" />
+                    </div>
+                    <h5>@product.Name</h5>
+                </div>
             </a>
         </div>
     }
@@ -175,6 +180,7 @@
         color: #28a745;
         font-weight: bold;
         margin: 10px 0;
+        font-size: 1.2rem;
     }
 
     .product-card p {

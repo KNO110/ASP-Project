@@ -152,15 +152,16 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-
 function addToCartClick(e) {
   const btn = e.target.closest('[data-role="add-to-cart"]');
   const userId = btn.getAttribute("data-user-id");
   const productId = btn.getAttribute("data-product-id");
+
   if (!userId) {
-    alert("Треба увійти до системи");
+    showSnackbar("Ви маєте увійти до системи, щоб додати товар до кошику.", 'error');
     return;
   }
+
   fetch("/api/cart", {
     method: 'POST',
     headers: {
@@ -169,12 +170,63 @@ function addToCartClick(e) {
     body: JSON.stringify({
       userId,
       productId,
-      cnt: 1
+      cnt: 1 
     })
-  }).then(r => r.json()).then(console.log);
+  })
+    .then(r => r.json())
+    .then(j => {
+      if (j.status === 'OK') {
+        const totalItems = j.totalItems;
+        showSnackbar(`Додано успішно, у кошику обраних вами товарів (всього - ${totalItems})`);
 
-  console.log(userId, productId);
+        const cartTotalItems = document.getElementById('cart-total-items');
+        if (cartTotalItems) {
+          cartTotalItems.innerText = totalItems;
+        }
+      } else if (j.message) {
+        showSnackbar(`Помилка додавання товару до кошику: ${j.message}`, 'error');
+      } else {
+        showSnackbar('Сталася помилка, товар не було додано до кошику.', 'error');
+      }
+    })
+    .catch(err => {
+      console.error('Помилка запиту:', err);
+      showSnackbar('Помилка на стороні серверу.', 'error');
+    });
 }
+
+
+
+
+const cartIndicator = document.getElementById('cart-indicator');
+if (cartIndicator) {
+  cartIndicator.innerText = totalItems;
+}
+
+
+function showSnackbar(message, type = 'success') {
+
+  const snackbar = document.createElement('div');
+  snackbar.className = `snackbar ${type}`;
+  snackbar.innerText = message;
+
+
+  document.body.appendChild(snackbar);
+
+  setTimeout(() => {
+    snackbar.classList.add('show');
+  }, 100);
+
+
+  setTimeout(() => {
+    snackbar.classList.remove('show');
+    setTimeout(() => {
+      document.body.removeChild(snackbar);
+    }, 300);
+  }, 3000);
+}
+
+
 
 function authRecoverClick() {
   if (!document.querySelector('[name="auth-user-date"]')) {
@@ -219,6 +271,32 @@ function feedbackRestoreClick(e) {
     });
   }
 }
+
+function loadCartItemCount() {
+  const cartTotalItems = document.getElementById('cart-total-items');
+  if (!cartTotalItems) return;
+
+  const userId = cartTotalItems.getAttribute('data-user-id');
+  if (!userId) return;
+
+  fetch("/api/cart?id=" + userId)
+    .then(r => r.json())
+    .then(j => {
+      if (j.data && j.data.cartProducts) {
+        const totalItems = j.data.cartProducts.reduce((sum, item) => sum + item.cnt, 0);
+        cartTotalItems.innerText = totalItems;
+      } else {
+        cartTotalItems.innerText = 0;
+      }
+    })
+    .catch(err => {
+      console.error('Помилка завантаження кількості товарів у кошику:', err);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadCartItemCount();
+});
 
 function feedbackDeleteClick(e) {
   const btn = e.target.closest('[data-feedback-id]');
