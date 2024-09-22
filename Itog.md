@@ -1,4 +1,4 @@
-Вы говорили что могу приложить фичи которые добавил в проект, вместо пары других дз, так что приложу сюда и ещё в одно дз.
+Вы говорили что могу приложить фичи которые добавил в проект, вместо пары других дз, так что приложу сюда и ещё в два дз.
 ![image](https://github.com/user-attachments/assets/5bf34872-52e2-43aa-a21e-ab9e9d9cb249)
 ![image](https://github.com/user-attachments/assets/2200cef5-e379-43e0-82d7-5381fbaa08ea)
 ![image](https://github.com/user-attachments/assets/80a1dc40-b304-439f-b0a2-c9da30914b36)
