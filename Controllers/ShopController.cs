@@ -46,6 +46,11 @@ namespace ASP_P15.Controllers
             {
                 ProductGroup = group,
                 Groups = source,
+                PriceLimits = group.Products
+               .Select(p => p.Price)
+               .Distinct()
+               .OrderBy(price => price)
+               .ToList()
             };
             return View(model);
         }

@@ -1,21 +1,45 @@
 ﻿@model ASP_P15.Models.Shop.ShopGroupPageModel
 
-<div class="product-group row row-cols-1 row-cols-md-3 g-4">
-    @foreach (var product in Model.ProductGroup.Products)
-    {
-        <div class="col">
-            <div class="card product-card h-100">
-                <a asp-action="Product" asp-route-id="@(product.Slug ?? product.Id.ToString())" class="text-decoration-none">
-                    <img src="/Home/Download/Shop_@(product.Image)" class="card-img-top" alt="@product.Name">
-                    <div class="card-body">
-                        <h5 class="card-title text-dark">@product.Name</h5>
-                        <p class="card-text text-muted">@product.Description</p>
+<div class="row">
+    <div class="col-md-3">
+        <h5>За ціною:</h5>
+        <form method="get">
+            @foreach (var price in Model.PriceLimits)
+            {
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="maxPrice" value="@price" id="price_@price"
+                    @(ViewContext.HttpContext.Request.Query["maxPrice"] == price.ToString() ? "checked" : "")>
+                    <label class="form-check-label" for="price_@price">
+                        до @price.ToString("F2") грн
+                    </label>
+                </div>
+            }
+            <button type="submit" class="btn btn-primary mt-2">Фільтрувати</button>
+        </form>
+    </div>
+
+    <div class="col-md-9">
+        <div class="product-group row row-cols-1 row-cols-md-3 g-4">
+            @foreach (var product in Model.ProductGroup.Products)
+            {
+                @if (!ViewContext.HttpContext.Request.Query.ContainsKey("maxPrice") || product.Price <= double.Parse(ViewContext.HttpContext.Request.Query["maxPrice"]))
+                {
+                    <div class="col">
+                        <div class="card product-card h-100">
+                            <a asp-action="Product" asp-route-id="@(product.Slug ?? product.Id.ToString())" class="text-decoration-none">
+                                <img src="/Home/Download/Shop_@(product.Image)" class="card-img-top" alt="@product.Name">
+                                <div class="card-body">
+                                    <h5 class="card-title text-dark">@product.Name</h5>
+                                    <p class="card-text text-muted">@product.Description</p>
+                                </div>
+                                <div class="card-footer">
+                                    <small class="text-primary fw-bold">₴ @product.Price.ToString("F2")</small>
+                                </div>
+                            </a>
+                        </div>
                     </div>
-                    <div class="card-footer">
-                        <small class="text-primary fw-bold">₴ @product.Price.ToString("F2")</small>
-                    </div>
-                </a>
-            </div>
+                }
+            }
         </div>
-    }
+    </div>
 </div>
