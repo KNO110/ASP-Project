@@ -1,0 +1,200 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Add your Credit Card</h2>
+
+<div id="snackbar"></div>
+
+@if (TempData["WarningMessage"] != null)
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        @TempData["WarningMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<form asp-action="SubmitCreditCard" method="post">
+    <div class="form-group">
+        <label for="cardNumber">Number of credit card</label>
+        <input type="text" id="cardNumber" name="cardNumber" placeholder="XXXX XXXX XXXX XXXX" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="cardOwner">Owner's name</label>
+        <input type="text" id="cardOwner" name="cardOwner" placeholder="Enter your name" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="expiryDate">Valid until</label>
+        <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YY" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+
+
+<style>
+    #snackbar {
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    bottom: 30px;
+    font-size: 17px;
+}
+
+#snackbar.show {
+    visibility: visible;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(to top right, #4314b9, #881db2, #ff8c00);
+        background-size: auto 100vh;
+    }
+
+    .container {
+        max-width: 700px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    input[type="text"], input[type="number"] {
+        margin-bottom: 10px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    input[type="submit"] {
+        background: linear-gradient(to right, #4314b9, #881db2);
+        color: white;
+        padding: 15px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+        input[type="submit"]:hover {
+            background: linear-gradient(to right, #5420da, #a828da);
+        }
+
+
+</style>
+
+    <script>
+
+        function showSnackbar(message) {
+    var snackbar = document.getElementById("snackbar");
+    snackbar.innerHTML = message;
+    snackbar.className = "show";
+    setTimeout(function() { snackbar.className = snackbar.className.replace("show", ""); }, 3000);
+}
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+        var message = '@TempData["Message"]';
+        if (message) {
+            showSnackbar(message);
+        }
+    });
+
+    document.getElementById('expiryDate').addEventListener('input', function (e) {
+        var value = e.target.value.replace(/\D/g, '').substring(0, 4);
+        var month = value.substring(0, 2);
+        var year = value.substring(2, 4);
+        if (month.length === 2) {
+            e.target.value = month + '/' + year;
+        } else {
+            e.target.value = month;
+        }
+    });
+
+    document.getElementById('cardNumber').addEventListener('input', function (e) {
+        var value = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+        var matches = value.match(/\d{4,16}/g);
+        var match = matches && matches[0] || '';
+        var parts = [];
+
+        for (var i = 0, len = match.length; i < len; i += 4) {
+            parts.push(match.substring(i, i + 4));
+        }
+
+        if (parts.length) {
+            e.target.value = parts.join(' ');
+        } else {
+            e.target.value = value;
+        }
+    });
+
+    document.getElementById('expiryDate').addEventListener('input', function (e) {
+        var value = e.target.value.replace(/\D/g, '');
+        if (value.length >= 2) {
+            var month = parseInt(value.substring(0, 2));
+            if (month < 1 || month > 12) {
+                alert('Invalid month. Please enter a valid month (01-12).');
+                e.target.value = '';
+                return;
+            }
+        }
+
+        if (value.length === 4) {
+            var year = parseInt(value.substring(2, 4));
+            var currentYear = new Date().getFullYear().toString().substring(2, 4);
+            if (year < parseInt(currentYear)) {
+                alert('Invalid year. The expiration year cannot be in the past.');
+                e.target.value = '';
+                return;
+            }
+
+            e.target.value = value.substring(0, 2) + '/' + value.substring(2, 4);
+        }
+    });
+
+    document.getElementById('cardOwner').addEventListener('input', function (e) {
+        var value = e.target.value;
+        if (/\d/.test(value)) { 
+            alert('Name cannot contain numbers. Please enter a valid name.');
+            e.target.value = value.replace(/\d/g, ''); 
+        }
+    });
+
+
+    </script>

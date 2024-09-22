@@ -482,3 +482,114 @@ justify-content: space-around;
         overflow: hidden;
         text-overflow: ellipsis;
     }
+
+
+.cart-product-item {
+    display: flex;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+    .cart-product-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+
+
+    .cart-product-item img {
+        max-width: 100%;
+        border-radius: 10px;
+    }
+
+
+.cart-product-info p {
+    margin: 0;
+    font-size: 16px;
+}
+
+    .cart-product-info p:first-child {
+        font-weight: bold;
+        font-size: 18px;
+        color: #333;
+    }
+
+.cart-product-info .text-muted {
+    color: #888;
+    font-size: 14px;
+}
+
+
+.cart-product-calc {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+    .cart-product-calc .d-flex {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+
+.decrement-btn, .increment-btn {
+    background-color: #74d8dd;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s;
+    margin: 0 10px; 
+}
+
+    .decrement-btn:hover, .increment-btn:hover {
+        background-color: #e68a00;
+    }
+
+
+.cart-product-cnt {
+    font-weight: bold;
+    font-size: 18px;
+    min-width: 40px;
+    text-align: center;
+}
+
+
+.cart-product-sum {
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+}
+
+
+button {
+    outline: none;
+    padding: 10px 20px;
+    background-color: #ff9900;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+    button:hover {
+        background-color: #e68a00;
+    }
+
+    button:active {
+        transform: scale(0.98);
+    }

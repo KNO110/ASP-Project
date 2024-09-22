@@ -19,6 +19,86 @@ public class ProfileController : Controller
         _logger = logger;
     }
 
+    [HttpGet]
+    public IActionResult CreditCardForm()
+    {
+        var userId = User.FindFirst(ClaimTypes.Sid)?.Value;
+        var user = _dataContext.Users.FirstOrDefault(u => u.Id == Guid.Parse(userId));
+
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        // Если карта уже добавлена, устанавливаем сообщение в TempData
+        if (!string.IsNullOrEmpty(user.CardNumber))
+        {
+            TempData["WarningMessage"] = "You already have a credit card added. You can update it if necessary.";
+        }
+
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> SubmitCreditCard(string cardNumber, string cardOwner, string expiryDate)
+    {
+        cardNumber = cardNumber.Replace(" ", "");
+
+
+        if (cardNumber.Length != 16)
+        {
+            TempData["ErrorMessage"] = "Invalid card number. Must be 16 digits.";
+            return RedirectToAction("CreditCardForm");
+        }
+
+
+        var parts = expiryDate.Split('/');
+        if (parts.Length != 2 || parts[0].Length != 2 || parts[1].Length != 2)
+        {
+            TempData["ErrorMessage"] = "Invalid expiry date format. Use MM/YY.";
+            return RedirectToAction("CreditCardForm");
+        }
+
+        int month = int.Parse(parts[0]);
+        int year = int.Parse(parts[1]) + 2000; 
+
+        if (month < 1 || month > 12)
+        {
+            TempData["ErrorMessage"] = "Invalid month. Please enter a valid month (01-12).";
+            return RedirectToAction("CreditCardForm");
+        }
+
+        int currentYear = DateTime.Now.Year;
+        int currentMonth = DateTime.Now.Month;
+
+        if (year < currentYear || (year == currentYear && month < currentMonth))
+        {
+            TempData["ErrorMessage"] = "Invalid year. The expiration date cannot be in the past.";
+            return RedirectToAction("CreditCardForm");
+        }
+
+        var userId = User.FindFirst(ClaimTypes.Sid)?.Value;
+        var user = _dataContext.Users.FirstOrDefault(u => u.Id == Guid.Parse(userId));
+
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        user.CardNumber = cardNumber;
+        user.CardOwner = cardOwner;
+        user.ExpiryDate = expiryDate;
+
+        _dataContext.Users.Update(user);
+        await _dataContext.SaveChangesAsync();
+
+        TempData["SuccessMessage"] = "Credit card information saved successfully!";
+        return RedirectToAction("CreditCardForm");
+    }
+
+
+
+
     [HttpPost]
     public async Task<IActionResult> ChangeAvatar(IFormFile avatar)
     {
